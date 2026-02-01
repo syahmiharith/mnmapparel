@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  output: "export",
+  outputFileTracingRoot: __dirname,
+  allowedDevOrigins: ["http://192.168.0.92:3000"],
   images: {
     domains: [],
   },
