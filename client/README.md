@@ -4,7 +4,7 @@ This directory contains the frontend application for MNM Apparel.
 
 ## Technology Stack
 
-- **Framework**: Next.js 14
+- **Framework**: Next.js 15
 - **UI Library**: React 18
 - **Language**: TypeScript
 - **Styling**: CSS Modules / Tailwind CSS (to be configured)

@@ -20,7 +20,7 @@ mnmapparel/
 ### Directory Overview
 
 #### 🎨 **client/** - Frontend Application
-Modern React-based frontend using Next.js 14 with TypeScript.
+Modern React-based frontend using Next.js 15 with TypeScript.
 
 - **Technology**: Next.js, React, TypeScript
 - **Features**: SSR, SSG, API routes, optimized performance

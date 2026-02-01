@@ -10,7 +10,7 @@ MNM Apparel uses modern, battle-tested technologies to ensure scalability, maint
 
 | Technology | Version | Purpose |
 |-----------|---------|---------|
-| Next.js | 14.x | React framework with SSR/SSG |
+| Next.js | 15.x | React framework with SSR/SSG |
 | React | 18.x | UI library |
 | TypeScript | 5.x | Type-safe JavaScript |
 | CSS Modules | - | Component-scoped styling |
@@ -38,10 +38,10 @@ MNM Apparel uses modern, battle-tested technologies to ensure scalability, maint
 | Technology | Version | Purpose |
 |-----------|---------|---------|
 | Python | 3.11+ | Programming language |
-| FastAPI | 0.109+ | Modern web framework |
-| Pydantic | 2.5+ | Data validation |
+| FastAPI | 0.115+ | Modern web framework |
+| Pydantic | 2.10+ | Data validation |
 | SQLAlchemy | 2.0+ | ORM (Object-Relational Mapping) |
-| Alembic | 1.13+ | Database migrations |
+| Alembic | 1.14+ | Database migrations |
 | PostgreSQL | 15+ | Primary database |
 
 ### Key Features

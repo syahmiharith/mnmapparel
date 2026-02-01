@@ -87,7 +87,7 @@ mnmapparel/
 ## 🛠️ Technology Stack
 
 ### Frontend
-- **Framework**: Next.js 14
+- **Framework**: Next.js 15
 - **Library**: React 18
 - **Language**: TypeScript
 
