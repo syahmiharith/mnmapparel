@@ -2,16 +2,16 @@
 
 Landing page and e-commerce platform for MNM Apparel.
 
-## 📁 Project Structure
+## Project Structure
 
 This repository follows a best-practice modular architecture with distinct compartments:
 
 ```
 mnmapparel/
-├── client/           # 🎨 Frontend Application (Next.js + React)
-├── server/           # ⚙️  Backend API (FastAPI + Python)
-├── provision/        # 🔧 DevOps, Scripts, Testing & Automation
-├── docs/            # 📚 Documentation
+├── client/           # Frontend Application (Next.js + React)
+├── server/           # Backend API (FastAPI + Python)
+├── provision/        # DevOps, Scripts, Testing & Automation
+├── docs/             # Documentation
 ├── docker-compose.yml
 ├── Makefile
 └── README.md
@@ -19,33 +19,33 @@ mnmapparel/
 
 ### Directory Overview
 
-#### 🎨 **client/** - Frontend Application
+####  **client/** - Frontend Application
 Modern React-based frontend using Next.js 15 with TypeScript.
 
 - **Technology**: Next.js, React, TypeScript
 - **Features**: SSR, SSG, API routes, optimized performance
 - [📖 Client Documentation](client/README.md)
 
-#### ⚙️ **server/** - Backend API
+####  **server/** - Backend API
 RESTful API built with FastAPI and Python.
 
 - **Technology**: FastAPI, Python 3.11+, SQLAlchemy
 - **Features**: Auto-generated docs, async support, type safety
-- [📖 Server Documentation](server/README.md)
+- [ Server Documentation](server/README.md)
 
-#### 🔧 **provision/** - DevOps & Automation
+####  **provision/** - DevOps & Automation
 Infrastructure as code, CI/CD pipelines, testing utilities, and Docker configurations.
 
 - **Includes**: Docker configs, CI/CD pipelines, automation scripts, tests
-- [📖 Provision Documentation](provision/README.md)
+- [ Provision Documentation](provision/README.md)
 
-#### 📚 **docs/** - Documentation
+####  **docs/** - Documentation
 Comprehensive project documentation including API specs, architecture, and guides.
 
 - **Includes**: API docs, architecture diagrams, developer guides
-- [📖 Documentation Index](docs/README.md)
+- [ Documentation Index](docs/README.md)
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -82,14 +82,14 @@ cd client
 npm run dev
 ```
 
-## 📖 Documentation
+##  Documentation
 
 - [Getting Started Guide](docs/guides/getting-started.md)
 - [API Documentation](docs/api/overview.md)
 - [System Architecture](docs/architecture/system-overview.md)
 - [Development Workflow](docs/guides/development-workflow.md)
 
-## 🛠️ Development
+##  Development
 
 ### Common Commands
 
@@ -117,7 +117,7 @@ cd server && pytest
 cd provision/tests && pytest
 ```
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 ┌─────────────┐
@@ -137,7 +137,7 @@ cd provision/tests && pytest
 └─────────────┘
 ```
 
-## 🔐 Environment Variables
+##  Environment Variables
 
 Create `.env` files in the respective directories:
 
@@ -152,7 +152,7 @@ DATABASE_URL=postgresql://user:password@localhost:5432/mnmapparel
 JWT_SECRET=your-secret-key
 ```
 
-## 📦 Tech Stack
+##  Tech Stack
 
 ### Frontend
 - **Framework**: Next.js 14
@@ -172,7 +172,7 @@ JWT_SECRET=your-secret-key
 - **CI/CD**: GitHub Actions
 - **Testing**: Pytest, Jest
 
-## 🤝 Contributing
+##  Contributing
 
 We welcome contributions! Please follow these steps:
 
@@ -184,16 +184,16 @@ We welcome contributions! Please follow these steps:
 
 See [Contributing Guidelines](docs/guides/contributing.md) for more details.
 
-## 📝 License
+##  License
 
 This project is licensed under the terms specified in the [LICENSE](LICENSE) file.
 
-## 📧 Contact
+##  Contact
 
 For questions or support, please contact:
 - Email: support@mnmapparel.com
 - Website: https://mnmapparel.com
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 Built with modern best practices and industry-standard tools. 
