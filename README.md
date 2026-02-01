@@ -1,6 +1,6 @@
 # MNM Apparel
 
-Landing page and e-commerce platform for MNM Apparel.
+Landing page for MNM Apparel.
 
 ## Project Structure
 
