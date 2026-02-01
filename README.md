@@ -24,7 +24,7 @@ Modern React-based frontend using Next.js 15 with TypeScript.
 
 - **Technology**: Next.js, React, TypeScript
 - **Features**: SSR, SSG, API routes, optimized performance
-- [📖 Client Documentation](client/README.md)
+- [ Client Documentation](client/README.md)
 
 ####  **server/** - Backend API
 RESTful API built with FastAPI and Python.
