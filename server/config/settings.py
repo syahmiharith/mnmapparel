@@ -10,10 +10,10 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     
     # Database
-    DATABASE_URL: str = "postgresql://user:password@localhost:5432/mnmapparel"
+    DATABASE_URL: str
     
     # JWT
-    JWT_SECRET: str = "your-secret-key-change-in-production"
+    JWT_SECRET: str
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRATION: int = 7  # days
     

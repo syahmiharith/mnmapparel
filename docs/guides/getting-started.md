@@ -224,7 +224,6 @@ cd ../server && pip install -r requirements.txt
 
 ## Getting Help
 
-- Check the [FAQ](faq.md)
+- Check the documentation in the [docs](../README.md) directory
 - Review [existing issues](https://github.com/syahmiharith/mnmapparel/issues)
-- Join our [community chat](https://discord.gg/mnmapparel)
-- Email: support@mnmapparel.com
+- Contact: support@mnmapparel.com
