@@ -1,12 +1,18 @@
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
 import MotionEffects from "../components/MotionEffects"
 import ScrambleHeading from "../components/ScrambleHeading"
 import { MetaLabelObserver } from "../components/MetaLabel"
 import { ProofLabelObserver } from "../components/ProofLabel"
+import MNMLogo from "../assets/MNMLOGO.png"
+import './quote-form.css'
 
-const whatsappNumber = "YOUR_WHATSAPP_NUMBER"
-const whatsappMessage =
-  "Hi, I'd like to see my jersey design in 3D. Can you help?"
+
+const whatsappNumber = "60183825033"
+const whatsappMessage = 
+  "Hi I would like to purchase this item"
 
 const jerseyPlaceholder = `data:image/svg+xml;utf8,${encodeURIComponent(
   `<svg xmlns="http://www.w3.org/2000/svg" width="700" height="900" viewBox="0 0 700 900">
@@ -44,7 +50,7 @@ function HeroSection() {
             </div>
             <div className="spec-item">
               <span className="spec-label">[ DESIGN ]</span>
-              <span className="spec-value">UNLIMITED REVISIONS + FULL SUBLIMATION</span>
+              <span className="spec-value">SYAHMI TAK HENSEM</span>
             </div>
             <div className="spec-item">
               <span className="spec-label">[ PRICE ]</span>
@@ -58,15 +64,24 @@ function HeroSection() {
         </div>
         <div className="chapter-content">
           <MetaLabelObserver text="[ 01 ] SYSTEM: THE HERO INTERFACE" sectionId="hero" />
+          <div className="logo-container" style={{ marginBottom: '2rem', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+            <Image
+              src={MNMLogo}
+              alt="MNM Apparel Logo"
+              width={200}
+              height={200}
+              priority
+              style={{ maxWidth: '100%', height: 'auto', display: 'block' }}
+            />
+          </div>
           <ScrambleHeading
             as="h1"
             id="hero-title"
             className="reveal-text"
-            text={"CUSTOM JERSEYS.\nUNLIMITED DESIGN.\nFAST DELIVERY."}
+            text={"ORDER BAJU SIAP BAWAH 24 JAM .\nBAJU SIAP ON TIME.\n"}
           />
           <p className="lead js-hero-sub">
-            From rough idea to pro-grade 3D design—no agents, no risk. We handle design and
-            production in-house so you looks premium on delivery.
+            Kami menyediakan harga terus dari kilang, pengeluaran pantas dan penghantaran yang boleh dipercayai.
           </p>
           <a className="cta-button js-cta" href={whatsappHref}>
             <span className="cta-text">START MY 3D DESIGN</span>
@@ -296,18 +311,173 @@ function ProcessSection() {
   )
 }
 
+function QuoteFormSection() {
+  const [name, setName] = useState("")
+  const [shirtType, setShirtType] = useState("")
+  const [sizes, setSizes] = useState({
+    XS: 0,
+    S: 0,
+    M: 0,
+    L: 0,
+    XL: 0,
+    "2XL": 0,
+    "3XL": 0,
+    "4XL": 0
+  })
+  const [date, setDate] = useState("")
+
+  const handleSizeChange = (size, value) => {
+    setSizes(prev => ({
+      ...prev,
+      [size]: parseInt(value) || 0
+    }))
+  }
+
+  const getTotalQuantity = () => {
+    return Object.values(sizes).reduce((sum, qty) => sum + qty, 0)
+  }
+
+  const getSizeBreakdown = () => {
+    return Object.entries(sizes)
+      .filter(([_, qty]) => qty > 0)
+      .map(([size, qty]) => `${size}: ${qty}`)
+      .join(", ")
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
+    const totalQty = getTotalQuantity()
+    const sizeBreakdown = getSizeBreakdown()
+
+    if (!name || !shirtType || totalQty === 0) {
+      alert("Sila isi Nama, Jenis Baju, dan sekurang-kurangnya satu saiz")
+      return
+    }
+
+    const message = `Hi MNM Apparel 👋
+I'd like to get a jersey quote.
+
+Name: ${name}
+Shirt Type: ${shirtType}
+Total Quantity: ${totalQty} pcs
+Size Breakdown: ${sizeBreakdown}
+Date Needed: ${date || "Not specified"}
+
+Please advise price & next steps.`
+
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+    window.open(url, "_blank")
+  }
+
+  return (
+    <section
+      id="quote"
+      className="section section-quote"
+      aria-labelledby="quote-title"
+      data-chapter="05"
+      data-title="QUOTE_FORM"
+    >
+      <div className="section-inner">
+        <div className="chapter-meta">
+          <MetaLabelObserver text="[ 05 ] QUOTE FORM: GET INSTANT PRICING" sectionId="quote" />
+          <MetaLabelObserver text="[ ACTION: SUBMIT_DETAILS ]" sectionId="quote" />
+        </div>
+        <div className="chapter-content">
+          <ScrambleHeading
+            as="h2"
+            id="quote-title"
+            className="reveal-text"
+            text="Nak cepat dapat harga?"
+          />
+          <p className="lead">Isi ringkas & terus WhatsApp dengan designer</p>
+          
+          <form className="quote-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="name" className="form-label">Nama</label>
+              <input
+                id="name"
+                type="text"
+                placeholder="👤  Nama anda"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="shirtType" className="form-label">Jenis Baju</label>
+              <input
+                id="shirtType"
+                type="text"
+                placeholder="👕  Korporat / Jersey / Baggy / Jacket / Muslimah / Custom"
+                value={shirtType}
+                onChange={e => setShirtType(e.target.value)}
+                className="form-input"
+              />
+              <p className="form-helper">Sila nyatakan dengan tepat</p>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Kuantiti & Saiz</label>
+              <div className="size-grid">
+                {Object.keys(sizes).map((size) => (
+                  <div key={size} className="size-item">
+                    <label htmlFor={`size-${size}`} className="size-label">{size}</label>
+                    <input
+                      id={`size-${size}`}
+                      type="number"
+                      min="0"
+                      value={sizes[size] || ""}
+                      onChange={e => handleSizeChange(size, e.target.value)}
+                      className="size-input"
+                      placeholder="0"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="total-quantity">
+                <span className="total-label">Jumlah:</span>
+                <span className="total-value">{getTotalQuantity()} helai</span>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="date" className="form-label">Tarikh Diperlukan</label>
+              <input
+                id="date"
+                type="date"
+                value={date}
+                onChange={e => setDate(e.target.value)}
+                className="form-input"
+                placeholder="dd/mm/yyyy"
+              />
+              <p className="form-helper">Bilakah tarikh anda perlukan tempahan ini?</p>
+            </div>
+
+            <button type="submit" className="quote-submit-button">
+              Hantar & Terus Chat WhatsApp
+            </button>
+            <p className="form-footer">Free quote · Instant reply · No commitment</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function FinalCTASection() {
   return (
     <section
       id="cta"
       className="section section-cta"
       aria-labelledby="cta-title"
-      data-chapter="05"
+      data-chapter="06"
       data-title="INITIALIZE_MOCKUP"
     >
       <div className="section-inner">
         <div className="chapter-meta">
-          <MetaLabelObserver text="[ 05 ] TERMINAL: CALL TO ACTION" sectionId="cta" />
+          <MetaLabelObserver text="[ 06 ] TERMINAL: CALL TO ACTION" sectionId="cta" />
           <MetaLabelObserver text="[ ACTION: START_NOW_FOR_FREE ]" sectionId="cta" />
         </div>
         <div className="chapter-content">
@@ -350,6 +520,7 @@ export default function Home() {
       <ArchiveSection />
       <FactorySection />
       <ProcessSection />
+      <QuoteFormSection />
       <FinalCTASection />
       <MotionEffects />
     </main>
