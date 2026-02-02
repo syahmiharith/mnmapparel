@@ -287,6 +287,41 @@ h3 {
   grid-column: 1 / span 8;
 }
 
+.hero-heading-wrapper {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: center;
+}
+
+.hero-heading-wrapper .reveal-text {
+  grid-column: 1;
+}
+
+.hero-logo-right {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .hero-heading-wrapper {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .hero-logo-right {
+    grid-column: 1;
+    justify-content: flex-start;
+  }
+  
+  .hero-logo-right img {
+    max-width: 120px !important;
+  }
+}
+
 .section-problem .section-inner::before {
   content: "";
   position: absolute;
@@ -922,6 +957,223 @@ p {
   white-space: nowrap;
 }
 
+/* ============================================ */
+/* QUOTE FORM SECTION STYLING */
+/* ============================================ */
+
+/* Quote Form Container - Aligned with globals design system */
+.quote-form {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Form Groups */
+.form-group {
+  display: grid;
+  gap: 0.6rem;
+}
+
+/* Form Labels - Using same style as data-label */
+.form-label {
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  color: var(--fg);
+  letter-spacing: 0.08em;
+}
+
+/* Form Inputs - Following the spec-grid / alert-block pattern */
+.form-input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 0.9rem 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-family: "PP Neue Montreal", "Inter", "Segoe UI", sans-serif;
+  transition: all 0.2s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--fg);
+}
+
+.form-input::placeholder {
+  color: rgba(230, 230, 230, 0.3);
+}
+
+/* Date Input Specific Styling */
+.form-input[type="date"] {
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.form-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.form-input[type="date"]:hover::-webkit-calendar-picker-indicator {
+  opacity: 1;
+}
+
+/* Number Input */
+.form-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.form-input[type="number"]::-webkit-outer-spin-button,
+.form-input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Form Helper Text - Using muted color */
+.form-helper {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+}
+
+/* Size Grid - Following spec-grid pattern */
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  border: 1px solid var(--line);
+  padding: 1rem;
+  background: var(--card);
+}
+
+.size-item {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.size-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 500;
+  text-align: center;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.size-input {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  padding: 0.7rem 0.5rem;
+  font-size: 0.9rem;
+  color: var(--fg);
+  font-family: "IBM Plex Mono", monospace;
+  text-align: center;
+  transition: all 0.2s ease;
+  outline: none;
+  appearance: textfield;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.size-input::-webkit-outer-spin-button,
+.size-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.size-input:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.size-input::placeholder {
+  color: rgba(230, 230, 230, 0.2);
+}
+
+/* Total Quantity Display - Following alert-block pattern */
+.total-quantity {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 0.9rem 1rem;
+  margin-top: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.total-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 600;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.total-value {
+  font-size: 1.1rem;
+  color: var(--fg);
+  font-weight: 600;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* Quote Submit Button - Using same style as cta-button */
+.quote-submit-button {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.6rem;
+  background: #39ff14;
+  color: #0d0d0d;
+  border: 1px solid #39ff14;
+  font-weight: 600;
+  font-size: 0.9rem;
+  min-height: 52px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: "IBM Plex Mono", monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.quote-submit-button:hover {
+  background: #2ee010;
+  transform: translateY(-1px);
+}
+
+.quote-submit-button:active {
+  transform: translateY(0);
+}
+
+/* Form Footer Text - Using cta-microcopy style */
+.form-footer {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.75rem;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ============================================ */
+/* RESPONSIVE DESIGN */
+/* ============================================ */
+
 @media (max-width: 1024px) {
   .chapter-meta,
   .chapter-content {
@@ -971,5 +1223,87 @@ p {
 
   .crosshair {
     display: none;
+  }
+
+  /* Quote Form Responsive */
+  .size-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.6rem;
+    padding: 0.85rem;
+  }
+  
+  .size-input {
+    padding: 0.6rem 0.4rem;
+    font-size: 0.85rem;
+  }
+  
+  .size-label {
+    font-size: 0.7rem;
+  }
+  
+  .form-input {
+    padding: 0.8rem 0.9rem;
+    font-size: 0.85rem;
+  }
+  
+  .quote-submit-button {
+    padding: 0.9rem 1.4rem;
+    font-size: 0.85rem;
+  }
+  
+  .total-quantity {
+    padding: 0.8rem 0.9rem;
+  }
+  
+  .total-value {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Quote Form Mobile */
+  .size-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 0.85rem;
+  }
+  
+  .size-item {
+    gap: 0.5rem;
+  }
+  
+  .size-label {
+    font-size: 0.72rem;
+  }
+  
+  .size-input {
+    padding: 0.65rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .form-label {
+    font-size: 0.78rem;
+  }
+  
+  .form-input {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.85rem;
+  }
+  
+  .quote-submit-button {
+    padding: 0.85rem 1.2rem;
+    font-size: 0.82rem;
+  }
+  
+  .total-quantity {
+    padding: 0.75rem 0.85rem;
+  }
+  
+  .total-label {
+    font-size: 0.78rem;
+  }
+  
+  .total-value {
+    font-size: 0.95rem;
   }
 }
