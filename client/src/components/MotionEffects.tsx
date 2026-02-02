@@ -7,16 +7,9 @@ export default function MotionEffects() {
     if (typeof window === "undefined") return
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const preloader = document.querySelector<HTMLElement>(".preloader")
-    const preloaderLogo = document.querySelector<HTMLElement>(".preloader-logo")
+    if (reduceMotion) return
 
-    if (reduceMotion) {
-      if (preloader) {
-        preloader.style.display = "none"
-      }
-      return
-    }
-
+    let isMounted = true
     let ctx: { revert: () => void } | undefined
 
     let handleMouseMove: any = null
@@ -91,10 +84,14 @@ export default function MotionEffects() {
         })
       }
 
+      if (!isMounted) return
+
       ctx = gsap.context(() => {
         const heroSub = document.querySelector<HTMLElement>(".js-hero-sub")
         const ctas = gsap.utils.toArray<HTMLElement>(".js-cta")
         const scrambleTargets = gsap.utils.toArray<HTMLElement>(".js-scramble")
+        const preloader = document.querySelector<HTMLElement>(".preloader")
+        const preloaderLogo = document.querySelector<HTMLElement>(".preloader-logo")
 
         let heroTimeline: gsap.core.Timeline | null = null
 
@@ -250,11 +247,11 @@ export default function MotionEffects() {
               start: "top center",
               end: "bottom center",
               onEnter: () => {
-                statusChapter.textContent = `CH. ${chapter} / 06`
+                statusChapter.textContent = `CH. ${chapter} / 05`
                 statusTitle.textContent = title ?? ""
               },
               onEnterBack: () => {
-                statusChapter.textContent = `CH. ${chapter} / 06`
+                statusChapter.textContent = `CH. ${chapter} / 05`
                 statusTitle.textContent = title ?? ""
               },
             })
@@ -286,33 +283,21 @@ export default function MotionEffects() {
         sections.forEach((section, index) => {
           const zIndex = (index + 1) * 10
           section.style.zIndex = `${zIndex}`
-          section.style.backgroundColor = "#080808"
 
           ScrollTrigger.create({
             trigger: section,
-            start: "top top",
-            pin: true,
-            pinSpacing: false,
-            scrub: true,
+            start: "top center",
+            end: "bottom center",
             onUpdate: (self) => {
               if (index > 0) {
                 const prev = sections[index - 1]
                 gsap.set(prev, {
-                  filter: `brightness(${1 - self.progress * 0.7})`,
+                  opacity: 1 - self.progress * 0.2,
                   scale: 1 - self.progress * 0.05,
                 })
               }
             },
           })
-        })
-
-        ScrollTrigger.create({
-          snap: {
-            snapTo: 1 / (sections.length - 1),
-            duration: { min: 0.3, max: 0.7 },
-            delay: 0.1,
-            ease: "power2.inOut",
-          },
         })
 
       }, document.body)
@@ -323,6 +308,7 @@ export default function MotionEffects() {
     setup()
 
     return () => {
+      isMounted = false
       if (ctx) {
         ctx.revert()
       }

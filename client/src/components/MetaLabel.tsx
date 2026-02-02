@@ -1,0 +1,127 @@
+"use client"
+
+import { useEffect, useMemo, useRef, useState } from "react"
+
+type MetaLabelProps = {
+  text: string
+  active: boolean
+  className?: string
+}
+
+type MetaLabelObserverProps = {
+  text: string
+  sectionId: string
+  className?: string
+  rootMargin?: string
+}
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const update = () => setReduced(mq.matches)
+    update()
+    mq.addEventListener?.("change", update)
+    return () => mq.removeEventListener?.("change", update)
+  }, [])
+
+  return reduced
+}
+
+export function useSectionActive(sectionId: string, rootMargin = "-20% 0px -60% 0px") {
+  const [active, setActive] = useState(false)
+
+  useEffect(() => {
+    const el = document.getElementById(sectionId)
+    if (!el) return
+
+    const obs = new IntersectionObserver(
+      ([entry]) => setActive(entry.isIntersecting),
+      { rootMargin, threshold: 0.1 }
+    )
+
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [sectionId, rootMargin])
+
+  return active
+}
+
+export function MetaLabelObserver({
+  text,
+  sectionId,
+  className,
+  rootMargin,
+}: MetaLabelObserverProps) {
+  const active = useSectionActive(sectionId, rootMargin)
+  return <MetaLabel text={text} active={active} className={className} />
+}
+
+export default function MetaLabel({ text, active, className }: MetaLabelProps) {
+  const reduced = usePrefersReducedMotion()
+  const rafRef = useRef<number | null>(null)
+  const [display, setDisplay] = useState(active ? text : "")
+  const [isTyping, setIsTyping] = useState(false)
+  const [wipe, setWipe] = useState(active ? 0 : 100)
+
+  const duration = useMemo(() => {
+    const base = text.length * 35
+    return Math.min(800, Math.max(320, base))
+  }, [text])
+
+  useEffect(() => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
+    }
+
+    if (reduced) {
+      setDisplay(text)
+      setIsTyping(false)
+      setWipe(active ? 0 : 100)
+      return
+    }
+
+    if (active) {
+      setWipe(0)
+      setDisplay("")
+      setIsTyping(true)
+
+      const start = performance.now()
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / duration)
+        const count = Math.ceil(t * text.length)
+        setDisplay(text.slice(0, count))
+
+        if (t < 1) {
+          rafRef.current = requestAnimationFrame(tick)
+        } else {
+          setIsTyping(false)
+        }
+      }
+
+      rafRef.current = requestAnimationFrame(tick)
+    } else {
+      setIsTyping(false)
+      setWipe(100)
+      setDisplay(text)
+    }
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [active, reduced, text, duration])
+
+  return (
+    <span className={`meta-label ${className ?? ""}`}>
+      <span className="meta-label__ghost" aria-hidden="true">
+        {text}
+      </span>
+      <span className="meta-label__text" style={{ ["--wipe" as any]: `${wipe}%` }}>
+        <span className="meta-label__chars">{display}</span>
+        {isTyping && !reduced && <span className="meta-label__cursor" aria-hidden="true" />}
+      </span>
+    </span>
+  )
+}
