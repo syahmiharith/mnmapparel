@@ -122,7 +122,7 @@ export default function ArchiveSection({ jerseyPlaceholder }: ArchiveSectionProp
             as="h2"
             id="archive-title"
             className="reveal-text"
-            text="Real teams. Real orders. Real outcomes."
+            text="Real teams. Real orders. Real results."
           />
           <div className="proof-label-slot">
             <ProofLabelObserver text="[ TOTAL_BATCHES_PROCESSED: 4,800+ ]" sectionId="proof" />

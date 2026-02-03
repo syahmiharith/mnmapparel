@@ -312,7 +312,20 @@ export default function MotionEffects() {
               scrub: 1,
               anticipatePin: 1,
               invalidateOnRefresh: true,
-              onRefreshInit: updateStart,
+              onRefreshInit: (self) => {
+                if (self.progress === 0) {
+                  updateStart()
+                } else {
+                  gsap.set(archiveTrack, { opacity: 1, visibility: "visible" })
+                }
+              },
+              onRefresh: (self) => {
+                if (self.progress === 0) {
+                  gsap.set(archiveTrack, { opacity: 0, visibility: "hidden", x: getStartX() })
+                } else {
+                  gsap.set(archiveTrack, { opacity: 1, visibility: "visible" })
+                }
+              },
               onEnter: () => {
                 isArchivePinned = true
                 gsap.set(archiveTrack, { opacity: 1, visibility: "visible" })
@@ -324,7 +337,6 @@ export default function MotionEffects() {
               onLeave: () => {
                 isArchivePinned = false
                 resyncStatusToViewport()
-                ScrollTrigger.refresh()
               },
               onLeaveBack: () => {
                 isArchivePinned = false
@@ -334,7 +346,6 @@ export default function MotionEffects() {
                   visibility: "hidden",
                 })
                 resyncStatusToViewport()
-                ScrollTrigger.refresh()
               },
               onUpdate: (self) => {
                 setProgress(self.progress)
