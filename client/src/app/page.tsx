@@ -247,7 +247,7 @@ function QuoteFormSection() {
 
   const getSizeBreakdown = () => {
     return Object.entries(sizes)
-      .filter(([_, qty]) => qty > 0)
+      .filter(([, qty]) => qty > 0)
       .map(([size, qty]) => `${size}: ${qty}`)
       .join(", ")
   }
