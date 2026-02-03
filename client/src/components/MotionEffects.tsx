@@ -128,6 +128,9 @@ export default function MotionEffects() {
               if (heroTimeline) heroTimeline.play()
             }, "-=0.5")
             .set(preloader, { display: "none" })
+            .add(() => {
+              ScrollTrigger.refresh()
+            })
         } else if (heroTimeline) {
           heroTimeline.play()
         }
@@ -146,31 +149,7 @@ export default function MotionEffects() {
           })
         }
 
-        scrambleTargets.forEach((target) => {
-          ScrollTrigger.create({
-            trigger: target,
-            start: "top 95%",
-            onEnter: () => scrambleText(target),
-            onEnterBack: () => scrambleText(target),
-          })
-        })
-
         const revealTextTargets = gsap.utils.toArray<HTMLElement>(".reveal-text")
-        if (revealTextTargets.length) {
-          revealTextTargets.forEach((text) => {
-            gsap.from(text, {
-              y: 100,
-              clipPath: "inset(0 0 100% 0)",
-              duration: 1.2,
-              ease: "expo.out",
-              scrollTrigger: {
-                trigger: text,
-                start: "top 90%",
-                toggleActions: "play none none reverse",
-              },
-            })
-          })
-        }
 
         const finePointer = window.matchMedia("(pointer: fine)").matches
         if (finePointer && ctas.length) {
@@ -235,7 +214,49 @@ export default function MotionEffects() {
 
         const statusChapter = document.querySelector<HTMLElement>(".js-status-chapter")
         const statusTitle = document.querySelector<HTMLElement>(".js-status-title")
+        const statusBar = document.querySelector<HTMLElement>(".js-status-progress")
         const sections = gsap.utils.toArray<HTMLElement>(".section")
+        const archiveSection = document.querySelector<HTMLElement>(".section-archive")
+        const archiveTrack = document.querySelector<HTMLElement>(".js-archive-track")
+        const archiveContainer = document.querySelector<HTMLElement>(".js-archive-container")
+        let isArchivePinned = false
+
+        const setProgress = (progress: number) => {
+          if (!statusBar) return
+          const clamped = Math.max(0, Math.min(1, progress))
+          statusBar.style.height = `${clamped * 100}%`
+        }
+
+        const resyncStatusToViewport = () => {
+          if (!statusChapter || !statusTitle) return
+
+          const probeY = window.innerHeight * 0.5
+          let best: HTMLElement | null = null
+
+          for (const section of sections) {
+            const rect = section.getBoundingClientRect()
+            if (rect.top <= probeY && rect.bottom >= probeY) {
+              best = section
+              break
+            }
+          }
+
+          if (!best) {
+            let candidate: HTMLElement | null = null
+            for (const section of sections) {
+              const rect = section.getBoundingClientRect()
+              if (rect.top <= probeY) candidate = section
+            }
+            best = candidate ?? (sections[0] ?? null)
+          }
+
+          if (!best) return
+
+          const chapter = best.dataset.chapter ?? "01"
+          const title = best.dataset.title ?? ""
+          statusChapter.textContent = `CH. ${chapter} / 05`
+          statusTitle.textContent = title
+        }
 
         if (statusChapter && statusTitle) {
           sections.forEach((section) => {
@@ -247,6 +268,88 @@ export default function MotionEffects() {
               start: "top center",
               end: "bottom center",
               onEnter: () => {
+                if (isArchivePinned && section !== archiveSection) return
+                statusChapter.textContent = `CH. ${chapter} / 05`
+                statusTitle.textContent = title ?? ""
+              },
+              onEnterBack: () => {
+                if (isArchivePinned && section !== archiveSection) return
+                statusChapter.textContent = `CH. ${chapter} / 05`
+                statusTitle.textContent = title ?? ""
+              },
+            })
+          })
+        }
+
+        if (archiveSection && archiveTrack) {
+          const getContainerWidth = () => archiveContainer?.clientWidth ?? window.innerWidth
+          const getStartX = () => getContainerWidth()
+          const getEndX = () => {
+            const lastItem = archiveTrack.lastElementChild as HTMLElement | null
+            const containerWidth = getContainerWidth()
+            if (!lastItem) return 0
+            const lastCenter = lastItem.offsetLeft + lastItem.offsetWidth / 2
+            return containerWidth / 2 - lastCenter
+          }
+
+          const getTravel = () => Math.abs(getStartX() - getEndX())
+
+          const updateStart = () => {
+            gsap.set(archiveTrack, { x: getStartX(), opacity: 0, visibility: "hidden" })
+          }
+
+          updateStart()
+
+          gsap.to(archiveTrack, {
+            x: () => getEndX(),
+            ease: "none",
+            scrollTrigger: {
+              trigger: archiveSection,
+              start: "top top",
+              end: () => `+=${getTravel()}`,
+              pin: true,
+              pinSpacing: true,
+              scrub: 1,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+              onRefreshInit: updateStart,
+              onEnter: () => {
+                isArchivePinned = true
+                gsap.set(archiveTrack, { opacity: 1, visibility: "visible" })
+              },
+              onEnterBack: () => {
+                isArchivePinned = true
+                gsap.set(archiveTrack, { opacity: 1, visibility: "visible" })
+              },
+              onLeave: () => {
+                isArchivePinned = false
+                resyncStatusToViewport()
+                ScrollTrigger.refresh()
+              },
+              onLeaveBack: () => {
+                isArchivePinned = false
+                gsap.set(archiveTrack, {
+                  x: getStartX(),
+                  opacity: 0,
+                  visibility: "hidden",
+                })
+                resyncStatusToViewport()
+                ScrollTrigger.refresh()
+              },
+              onUpdate: (self) => {
+                setProgress(self.progress)
+              },
+            },
+          })
+
+          if (statusChapter && statusTitle) {
+            const chapter = archiveSection.dataset.chapter
+            const title = archiveSection.dataset.title
+            ScrollTrigger.create({
+              trigger: archiveSection,
+              start: "top top",
+              end: () => `+=${getTravel()}`,
+              onEnter: () => {
                 statusChapter.textContent = `CH. ${chapter} / 05`
                 statusTitle.textContent = title ?? ""
               },
@@ -255,8 +358,67 @@ export default function MotionEffects() {
                 statusTitle.textContent = title ?? ""
               },
             })
+          }
+        }
+
+        scrambleTargets.forEach((target) => {
+          ScrollTrigger.create({
+            trigger: target,
+            start: "top 95%",
+            onEnter: () => {
+              if (isArchivePinned && !archiveSection?.contains(target)) return
+              scrambleText(target)
+            },
+            onEnterBack: () => {
+              if (isArchivePinned && !archiveSection?.contains(target)) return
+              scrambleText(target)
+            },
+          })
+        })
+
+        if (revealTextTargets.length) {
+          revealTextTargets.forEach((text) => {
+            const tween = gsap.from(text, {
+              y: 100,
+              clipPath: "inset(0 0 100% 0)",
+              duration: 1.2,
+              ease: "expo.out",
+              paused: true,
+            })
+
+            ScrollTrigger.create({
+              trigger: text,
+              start: "top 90%",
+              onEnter: () => {
+                if (isArchivePinned && !archiveSection?.contains(text)) return
+                tween.play()
+              },
+              onEnterBack: () => {
+                if (isArchivePinned && !archiveSection?.contains(text)) return
+                tween.play()
+              },
+              onLeaveBack: () => {
+                tween.reverse()
+              },
+            })
           })
         }
+
+        sections.forEach((section) => {
+          ScrollTrigger.create({
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            onUpdate: (self) => {
+              if (isArchivePinned && section !== archiveSection) return
+              const rect = section.getBoundingClientRect()
+              const probeY = window.innerHeight * 0.5
+              const isActive = rect.top <= probeY && rect.bottom >= probeY
+              if (!isActive) return
+              setProgress(self.progress)
+            },
+          })
+        })
 
         const crosshair = document.querySelector<HTMLElement>(".crosshair")
         const coordData = document.querySelector<HTMLElement>(".coord-data")
@@ -291,10 +453,25 @@ export default function MotionEffects() {
             onUpdate: (self) => {
               if (index > 0) {
                 const prev = sections[index - 1]
-                gsap.set(prev, {
-                  opacity: 1 - self.progress * 0.2,
-                  scale: 1 - self.progress * 0.05,
-                })
+                const isArchive = prev?.classList.contains("section-archive")
+
+                if (isArchive) {
+                  const archiveScale = self.progress > 0.1
+                    ? 1 - (self.progress - 0.1) * 0.05
+                    : 1
+
+                  gsap.set(prev, {
+                    opacity: 1 - self.progress * 0.2,
+                    scale: archiveScale,
+                    transformOrigin: "center top",
+                  })
+                } else {
+                  gsap.set(prev, {
+                    opacity: 1 - self.progress * 0.2,
+                    scale: 1 - self.progress * 0.05,
+                    transformOrigin: "center top",
+                  })
+                }
               }
             },
           })

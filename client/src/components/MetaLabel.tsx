@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
+import usePrefersReducedMotion from "../utils/usePrefersReducedMotion"
+import useSectionActive from "../utils/useSectionActive"
 
 type MetaLabelProps = {
   text: string
@@ -13,39 +15,6 @@ type MetaLabelObserverProps = {
   sectionId: string
   className?: string
   rootMargin?: string
-}
-
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false)
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const update = () => setReduced(mq.matches)
-    update()
-    mq.addEventListener?.("change", update)
-    return () => mq.removeEventListener?.("change", update)
-  }, [])
-
-  return reduced
-}
-
-export function useSectionActive(sectionId: string, rootMargin = "-20% 0px -60% 0px") {
-  const [active, setActive] = useState(false)
-
-  useEffect(() => {
-    const el = document.getElementById(sectionId)
-    if (!el) return
-
-    const obs = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
-      { rootMargin, threshold: 0.1 }
-    )
-
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [sectionId, rootMargin])
-
-  return active
 }
 
 export function MetaLabelObserver({

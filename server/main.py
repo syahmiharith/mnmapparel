@@ -17,6 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
@@ -24,6 +25,7 @@ async def health_check():
         "status": "healthy",
         "message": "MNM Apparel API is running"
     }
+
 
 @app.get("/")
 async def root():
@@ -37,7 +39,9 @@ async def root():
 # Import and include routers
 # from routes import auth, products, users
 # app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
-# app.include_router(products.router, prefix="/api/products", tags=["products"])
+# app.include_router(
+#     products.router, prefix="/api/products", tags=["products"]
+# )
 # app.include_router(users.router, prefix="/api/users", tags=["users"])
 
 if __name__ == "__main__":

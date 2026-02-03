@@ -1,8 +1,8 @@
-import Image from "next/image"
 import MotionEffects from "../components/MotionEffects"
 import ScrambleHeading from "../components/ScrambleHeading"
 import { MetaLabelObserver } from "../components/MetaLabel"
-import { ProofLabelObserver } from "../components/ProofLabel"
+import ArchiveSection from "../components/ArchiveSection"
+import StickyChat from "../components/StickyChat"
 
 const whatsappNumber = "YOUR_WHATSAPP_NUMBER"
 const whatsappMessage =
@@ -79,101 +79,6 @@ function HeroSection() {
   )
 }
 
-function ArchiveSection() {
-  return (
-    <section
-      id="proof"
-      className="section section-archive archive-section"
-      aria-labelledby="archive-title"
-      data-chapter="02"
-      data-title="ARCHIVE_DATABASE"
-    >
-      <div className="section-inner">
-        <div className="chapter-meta">
-          <MetaLabelObserver text="[ 02 ] THE ARCHIVE: PRODUCTS" sectionId="proof" />
-          <MetaLabelObserver text="[ DATABASE: COMPLETED BATCHES ]" sectionId="proof" />
-        </div>
-        <div className="chapter-content">
-          <ScrambleHeading
-            as="h2"
-            id="archive-title"
-            className="reveal-text"
-            text="Real teams. Real orders. Real outcomes."
-          />
-          <div className="proof-label-slot">
-            <ProofLabelObserver
-              text="[ TOTAL_BATCHES_PROCESSED: 4,800+ ]"
-              sectionId="proof"
-            />
-          </div>
-          <div className="archive-container">
-            <div className="scanner-line" aria-hidden="true" />
-            <div className="scan-popup">[ SCAN_DATA // MICROFIBER_EYELET // 210GSM ]</div>
-            <div className="conveyor-track">
-              <div className="jersey-item">
-                <Image
-                  src={jerseyPlaceholder}
-                  alt="Batch 01"
-                  width={350}
-                  height={450}
-                  unoptimized
-                  className="jersey-image"
-                />
-                <div className="mono-label">[ REF_001 // UNIVERSITY_SERIES ]</div>
-                <div className="mono-status shipped">[ STATUS: SHIPPED ]</div>
-              </div>
-              <div className="jersey-item">
-                <Image
-                  src={jerseyPlaceholder}
-                  alt="Batch 02"
-                  width={350}
-                  height={450}
-                  unoptimized
-                  className="jersey-image"
-                />
-                <div className="mono-label">[ REF_042 // SCHOOL_DIVISION ]</div>
-              </div>
-              <div className="jersey-item">
-                <Image
-                  src={jerseyPlaceholder}
-                  alt="Batch 03"
-                  width={350}
-                  height={450}
-                  unoptimized
-                  className="jersey-image"
-                />
-                <div className="mono-label">[ REF_107 // MOTORSPORT ]</div>
-              </div>
-              <div className="jersey-item">
-                <Image
-                  src={jerseyPlaceholder}
-                  alt="Batch 04"
-                  width={350}
-                  height={450}
-                  unoptimized
-                  className="jersey-image"
-                />
-                <div className="mono-label">[ REF_233 // CORPORATE_EVENT ]</div>
-              </div>
-              <div className="jersey-item">
-                <Image
-                  src={jerseyPlaceholder}
-                  alt="Batch 05"
-                  width={350}
-                  height={450}
-                  unoptimized
-                  className="jersey-image"
-                />
-                <div className="mono-label">[ REF_311 // ESPORTS ]</div>
-              </div>
-            </div>
-          </div>
-          <a className="cta-link" href="#process">Ask How the Design Works</a>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 function FactorySection() {
   return (
@@ -347,10 +252,11 @@ export default function Home() {
         <span className="coord-data">[X: 000px] [Y: 000px]</span>
       </div>
       <HeroSection />
-      <ArchiveSection />
+      <ArchiveSection jerseyPlaceholder={jerseyPlaceholder} />
       <FactorySection />
       <ProcessSection />
       <FinalCTASection />
+      <StickyChat whatsappNumber={whatsappNumber} />
       <MotionEffects />
     </main>
   )

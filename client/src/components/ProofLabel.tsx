@@ -1,7 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
+import usePrefersReducedMotion from "../utils/usePrefersReducedMotion"
+import useSectionActive from "../utils/useSectionActive"
 
 type ProofLabelProps = {
   text: string
@@ -14,33 +16,6 @@ type ProofLabelObserverProps = {
   sectionId: string
   className?: string
   rootMargin?: string
-}
-
-function usePrefersReducedMotion() {
-  return typeof window !== "undefined"
-    ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    : false
-}
-
-function useSectionActive(sectionId: string, rootMargin = "-20% 0px -60% 0px") {
-  const [active, setActive] = useState(false)
-
-  useEffect(() => {
-    const el = document.getElementById(sectionId)
-    if (!el) return
-
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        setActive(entry.isIntersecting)
-      },
-      { rootMargin, threshold: 0.1 }
-    )
-
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [sectionId, rootMargin])
-
-  return active
 }
 
 export function ProofLabelObserver({ text, sectionId, className, rootMargin }: ProofLabelObserverProps) {

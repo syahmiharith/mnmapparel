@@ -55,9 +55,7 @@ a {
 }
 
 .page {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+  display: block;
   position: relative;
   z-index: 1;
   background-image:
@@ -75,14 +73,181 @@ a {
     var(--section-bg);
   background-color: transparent;
   background-size: 100% 100%, auto;
-  min-height: 100svh;
+  min-height: 100vh;
   height: auto;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
   overflow: hidden;
   border-top: 1px solid var(--line);
   will-change: transform, opacity;
   --border-progress: 0;
   --dim: 0;
+}
+
+.pin-spacer {
+  pointer-events: none !important;
+}
+
+.section-archive {
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.jersey-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+
+.archive-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 7, 7, 0.85);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.archive-overlay.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.archive-overlay-image {
+  position: absolute;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.4);
+}
+
+.archive-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+}
+
+.sticky-chat {
+  position: fixed;
+  right: max(1.5rem, env(safe-area-inset-right));
+  bottom: max(1.5rem, env(safe-area-inset-bottom));
+  z-index: 20;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.sticky-chat.is-open {
+  pointer-events: auto;
+}
+
+.sticky-chat__toggle {
+  pointer-events: auto;
+  justify-self: end;
+  border: 1px solid var(--line);
+  background: #39ff14;
+  color: #0d0d0d;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.sticky-chat__icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.sticky-chat__panel {
+  width: min(320px, 82vw);
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.95);
+  padding: 0.9rem;
+  display: grid;
+  gap: 0.75rem;
+  border-radius: 14px;
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.sticky-chat.is-open .sticky-chat__panel {
+  opacity: 1;
+  transform: translateY(-8px) scale(1);
+  pointer-events: auto;
+}
+
+.sticky-chat__textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 90px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--fg);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  padding: 0.6rem;
+}
+
+.sticky-chat__actions {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.sticky-chat__send,
+.sticky-chat__close {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+}
+
+.sticky-chat__send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-chat__panel {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .sticky-chat {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+  }
 }
 
 .section::after {
@@ -592,13 +757,16 @@ p {
   height: 100%;
   display: flex;
   align-items: center;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
 }
 
 .conveyor-track {
   display: flex;
   gap: 4rem;
-  padding: 0 10vw;
   will-change: transform;
+  flex-wrap: nowrap;
+  width: max-content;
 }
 
 .jersey-item {
@@ -630,17 +798,6 @@ p {
 .mono-status.shipped {
   color: #39ff14;
   animation: pulse 1.6s ease-in-out infinite;
-}
-
-.scanner-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 2px;
-  background: #00f0ff;
-  opacity: 0.6;
-  z-index: 2;
 }
 
 .scan-popup {
@@ -703,8 +860,8 @@ p {
 .status-sidebar {
   position: fixed;
   left: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: 2rem;
+  transform: none;
   display: grid;
   gap: 0.6rem;
   font-family: "IBM Plex Mono", monospace;
