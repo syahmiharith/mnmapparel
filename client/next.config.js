@@ -5,6 +5,7 @@ const nextConfig = {
   outputFileTracingRoot: __dirname,
   allowedDevOrigins: ["http://192.168.0.92:3000"],
   images: {
+    unoptimized: true,
     domains: [],
   },
   env: {
