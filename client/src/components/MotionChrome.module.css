@@ -1,0 +1,210 @@
+.bgMesh {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.7;
+  filter: blur(80px);
+  background-image:
+    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0.1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 0.1) 0, transparent 50%);
+  transform-origin: center;
+  will-change: transform;
+  animation: ambientFloat 22s ease-in-out infinite;
+}
+
+.bgMesh::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.05;
+  filter: contrast(150%) brightness(100%);
+}
+
+.bgMesh::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.06) 0,
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px,
+      transparent 80px
+    ),
+    repeating-linear-gradient(
+      200deg,
+      rgba(0, 240, 255, 0.08) 0,
+      rgba(0, 240, 255, 0.08) 1px,
+      transparent 1px,
+      transparent 90px
+    );
+  opacity: 0.2;
+  mix-blend-mode: screen;
+  filter: blur(0.5px);
+  transform: translate3d(0, 0, 0) scale(1.05);
+  animation: ambientWaves 18s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.preloaderLogo {
+  font-size: clamp(1.4rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--fg);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.statusSidebar {
+  position: fixed;
+  left: 1.5rem;
+  bottom: 2rem;
+  transform: none;
+  display: grid;
+  gap: 0.6rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  z-index: 5;
+  color: var(--muted);
+}
+
+.statusChapter {
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+
+.statusTitle {
+  max-width: 120px;
+  line-height: 1.4;
+}
+
+.statusProgress {
+  position: relative;
+  width: 4px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.statusProgressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: var(--fg);
+}
+
+.crosshair {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.crosshair::after {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  left: -40px;
+  top: -40px;
+  transform: scale(0.2);
+  transition: transform 0.35s cubic-bezier(0.23, 0.32, 0.23, 0.2);
+  mix-blend-mode: difference;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.crosshairLine {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.crosshairLineX {
+  width: 120px;
+  height: 1px;
+  left: -60px;
+  top: 0;
+}
+
+.crosshairLineY {
+  width: 1px;
+  height: 120px;
+  left: 0;
+  top: -60px;
+}
+
+.coordData {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+@keyframes ambientFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -2%, 0) scale(1.03);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes ambientWaves {
+  0% {
+    background-position: 0% 0%, 100% 0%;
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  50% {
+    background-position: 100% 40%, 0% 60%;
+    transform: translate3d(1.5%, -1%, 0) scale(1.08);
+  }
+  100% {
+    background-position: 0% 0%, 100% 0%;
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+}
+
+@media (max-width: 1024px) {
+  .statusSidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .crosshair {
+    display: none;
+  }
+}

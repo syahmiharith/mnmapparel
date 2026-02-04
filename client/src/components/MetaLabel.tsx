@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import usePrefersReducedMotion from "../utils/usePrefersReducedMotion"
 import useSectionActive from "../utils/useSectionActive"
+import styles from "./MetaLabel.module.css"
 
 type MetaLabelProps = {
   text: string
@@ -13,6 +14,7 @@ type MetaLabelProps = {
 type MetaLabelObserverProps = {
   text: string
   sectionId: string
+  sectionRef?: React.MutableRefObject<HTMLElement | null>
   className?: string
   rootMargin?: string
 }
@@ -20,10 +22,11 @@ type MetaLabelObserverProps = {
 export function MetaLabelObserver({
   text,
   sectionId,
+  sectionRef,
   className,
   rootMargin,
 }: MetaLabelObserverProps) {
-  const active = useSectionActive(sectionId, rootMargin)
+  const active = useSectionActive(sectionId, rootMargin, sectionRef)
   return <MetaLabel text={text} active={active} className={className} />
 }
 
@@ -83,13 +86,13 @@ export default function MetaLabel({ text, active, className }: MetaLabelProps) {
   }, [active, reduced, text, duration])
 
   return (
-    <span className={`meta-label ${className ?? ""}`}>
-      <span className="meta-label__ghost" aria-hidden="true">
+    <span className={`${styles.metaLabel} ${className ?? ""}`}>
+      <span className={styles.metaLabelGhost} aria-hidden="true">
         {text}
       </span>
-      <span className="meta-label__text" style={{ ["--wipe" as any]: `${wipe}%` }}>
-        <span className="meta-label__chars">{display}</span>
-        {isTyping && !reduced && <span className="meta-label__cursor" aria-hidden="true" />}
+      <span className={styles.metaLabelText} style={{ ["--wipe" as any]: `${wipe}%` }}>
+        <span>{display}</span>
+        {isTyping && !reduced && <span className={styles.metaLabelCursor} aria-hidden="true" />}
       </span>
     </span>
   )

@@ -1,0 +1,27 @@
+.dataList {
+  display: grid;
+  gap: 1.2rem;
+  grid-column: 1 / span 6;
+}
+
+.dataItem {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.dataLabel {
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: var(--fg);
+}
+
+.dataValue {
+  color: var(--muted);
+}
+
+@media (max-width: 1024px) {
+  .dataList {
+    grid-column: 1 / -1;
+  }
+}

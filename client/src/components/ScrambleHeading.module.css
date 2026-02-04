@@ -1,0 +1,19 @@
+.scrambleHeading {
+  position: relative;
+  display: block;
+  white-space: pre-line;
+}
+
+.scrambleGhost {
+  visibility: hidden;
+  display: block;
+  opacity: 0;
+  color: transparent;
+}
+
+.scrambleLayer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}

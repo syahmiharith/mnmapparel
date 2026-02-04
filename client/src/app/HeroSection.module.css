@@ -1,0 +1,72 @@
+.sectionHero {
+  padding-top: 5rem;
+}
+
+.sectionHero :global(.chapter-content > h1) {
+  grid-column: 1 / span 8;
+}
+
+.heroHeadingWrapper {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: center;
+}
+
+.heroHeadingWrapper :global(.reveal-text) {
+  grid-column: 1;
+}
+
+.heroLogoRight {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metaBlock {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.specGrid {
+  display: grid;
+  gap: 0.9rem;
+  border: 1px solid var(--line);
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.specItem {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.specLabel,
+.specValue {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.specValue {
+  color: var(--fg);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+  .heroHeadingWrapper {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .heroLogoRight {
+    grid-column: 1;
+    justify-content: flex-start;
+  }
+
+  .heroLogoRight :global(img) {
+    max-width: 120px !important;
+  }
+}

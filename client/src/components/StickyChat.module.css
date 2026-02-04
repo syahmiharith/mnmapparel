@@ -1,0 +1,107 @@
+.stickyChat {
+  position: fixed;
+  right: max(1.5rem, env(safe-area-inset-right));
+  bottom: max(1.5rem, env(safe-area-inset-bottom));
+  z-index: 20;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.isOpen {
+  pointer-events: auto;
+}
+
+.toggle {
+  pointer-events: auto;
+  justify-self: end;
+  border: 1px solid var(--line);
+  background: #39ff14;
+  color: #0d0d0d;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.panel {
+  width: min(320px, 82vw);
+  border: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.95);
+  padding: 0.9rem;
+  display: grid;
+  gap: 0.75rem;
+  border-radius: 14px;
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.isOpen .panel {
+  opacity: 1;
+  transform: translateY(-8px) scale(1);
+  pointer-events: auto;
+}
+
+.textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 90px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--fg);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  padding: 0.6rem;
+}
+
+.actions {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.send,
+.close {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+}
+
+.send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .stickyChat {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}

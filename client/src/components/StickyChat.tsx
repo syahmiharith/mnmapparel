@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import usePrefersReducedMotion from "../utils/usePrefersReducedMotion"
+import styles from "./StickyChat.module.css"
 
 type StickyChatProps = {
   whatsappNumber: string
@@ -51,13 +52,13 @@ export default function StickyChat({
 
   return (
     <div
-      className={`sticky-chat ${open ? "is-open" : ""}`}
+      className={`${styles.stickyChat} ${open ? styles.isOpen : ""}`}
       data-reduced-motion={reducedMotion ? "true" : "false"}
     >
       <button
         ref={toggleRef}
         type="button"
-        className="sticky-chat__toggle"
+        className={styles.toggle}
         aria-expanded={open}
         aria-controls="sticky-chat-panel"
         aria-label={open ? "Minimize chat" : "Open chat"}
@@ -65,7 +66,7 @@ export default function StickyChat({
       >
         <span className="sr-only">Chat</span>
         <svg
-          className="sticky-chat__icon"
+          className={styles.icon}
           viewBox="0 0 32 32"
           aria-hidden="true"
           focusable="false"
@@ -79,23 +80,24 @@ export default function StickyChat({
 
       <div
         id="sticky-chat-panel"
-        className="sticky-chat__panel"
+        className={styles.panel}
         role="dialog"
-        aria-modal="false"
+        aria-modal={open ? "true" : "false"}
+        aria-hidden={!open}
         aria-label="Chat on WhatsApp"
       >
         <textarea
           ref={textareaRef}
-          className="sticky-chat__textarea"
+          className={styles.textarea}
           rows={4}
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           aria-label="Message for WhatsApp"
         />
-        <div className="sticky-chat__actions">
+        <div className={styles.actions}>
           <button
             type="button"
-            className="sticky-chat__send"
+            className={styles.send}
             onClick={handleSend}
             disabled={!message.trim()}
           >
@@ -103,7 +105,7 @@ export default function StickyChat({
           </button>
           <button
             type="button"
-            className="sticky-chat__close"
+            className={styles.close}
             onClick={() => {
               setOpen(false)
               toggleRef.current?.focus()

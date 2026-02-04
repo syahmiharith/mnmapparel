@@ -2,12 +2,13 @@ import { useEffect, useState } from "react"
 
 export default function useSectionActive(
   sectionId: string,
-  rootMargin = "-20% 0px -60% 0px"
+  rootMargin = "-20% 0px -60% 0px",
+  sectionRef?: React.MutableRefObject<HTMLElement | null>
 ) {
   const [active, setActive] = useState(false)
 
   useEffect(() => {
-    const el = document.getElementById(sectionId)
+    const el = sectionRef?.current ?? null
     if (!el) return
 
     const obs = new IntersectionObserver(
@@ -17,7 +18,7 @@ export default function useSectionActive(
 
     obs.observe(el)
     return () => obs.disconnect()
-  }, [sectionId, rootMargin])
+  }, [sectionId, rootMargin, sectionRef])
 
   return active
 }

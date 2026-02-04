@@ -6,6 +6,10 @@ import { gsap } from "gsap"
 import ScrambleHeading from "./ScrambleHeading"
 import { MetaLabelObserver } from "./MetaLabel"
 import { ProofLabelObserver } from "./ProofLabel"
+import { useMotionRefs } from "../contexts/MotionRefsContext"
+import styles from "./ArchiveSection.module.css"
+import ctaStyles from "../app/Cta.module.css"
+import layoutStyles from "../app/SectionLayout.module.css"
 
 type ArchiveSectionProps = {
   jerseyPlaceholder: string
@@ -19,10 +23,14 @@ type ActiveItem = {
 }
 
 export default function ArchiveSection({ jerseyPlaceholder }: ArchiveSectionProps) {
+  const { archiveSectionRef, archiveTrackRef, archiveContainerRef, registerCta } = useMotionRefs()
   const [activeItem, setActiveItem] = useState<ActiveItem | null>(null)
   const overlayRef = useRef<HTMLDivElement | null>(null)
   const overlayImgRef = useRef<HTMLImageElement | null>(null)
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null)
+  const lastFocusedRef = useRef<HTMLElement | null>(null)
   const originRectRef = useRef<DOMRect | null>(null)
+  const imageRefs = useRef<Record<string, HTMLImageElement | null>>({})
 
   const items = useMemo<ActiveItem[]>(
     () => [
@@ -70,9 +78,22 @@ export default function ArchiveSection({ jerseyPlaceholder }: ArchiveSectionProp
     })
 
     document.body.style.overflow = "hidden"
+    lastFocusedRef.current = document.activeElement as HTMLElement | null
+    requestAnimationFrame(() => closeButtonRef.current?.focus())
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault()
+        handleClose()
+      }
+    }
+
+    window.addEventListener("keydown", handleKey)
 
     return () => {
       document.body.style.overflow = ""
+      window.removeEventListener("keydown", handleKey)
+      lastFocusedRef.current?.focus()
     }
   }, [activeItem])
 
@@ -107,64 +128,93 @@ export default function ArchiveSection({ jerseyPlaceholder }: ArchiveSectionProp
   return (
     <section
       id="proof"
-      className="section section-archive archive-section"
+      className={`section section-archive ${styles.sectionArchive}`}
       aria-labelledby="archive-title"
       data-chapter="02"
       data-title="ARCHIVE_DATABASE"
+      ref={archiveSectionRef}
     >
-      <div className="section-inner">
-        <div className="chapter-meta">
-          <MetaLabelObserver text="[ 02 ] THE ARCHIVE: PRODUCTS" sectionId="proof" />
-          <MetaLabelObserver text="[ DATABASE: COMPLETED BATCHES ]" sectionId="proof" />
+      <div className={layoutStyles.sectionInner}>
+        <div className={layoutStyles.chapterMeta}>
+          <MetaLabelObserver
+            text="[ 02 ] THE ARCHIVE: PRODUCTS"
+            sectionId="proof"
+            sectionRef={archiveSectionRef}
+          />
+          <MetaLabelObserver
+            text="[ DATABASE: COMPLETED BATCHES ]"
+            sectionId="proof"
+            sectionRef={archiveSectionRef}
+          />
         </div>
-        <div className="chapter-content">
+        <div className={layoutStyles.chapterContent}>
           <ScrambleHeading
             as="h2"
             id="archive-title"
             className="reveal-text"
             text="Real teams. Real orders. Real results."
           />
-          <div className="proof-label-slot">
-            <ProofLabelObserver text="[ TOTAL_BATCHES_PROCESSED: 4,800+ ]" sectionId="proof" />
+          <div className={styles.proofLabelSlot}>
+            <ProofLabelObserver
+              text="[ TOTAL_BATCHES_PROCESSED: 4,800+ ]"
+              sectionId="proof"
+              sectionRef={archiveSectionRef}
+            />
           </div>
-          <div className="archive-container js-archive-container">
-            <div className="scan-popup">[ SCAN_DATA // MICROFIBER_EYELET // 210GSM ]</div>
-            <div className="conveyor-track js-archive-track flex-nowrap w-max">
-              {items.map((item) => (
+          <div className={styles.archiveContainer} ref={archiveContainerRef}>
+            <div className={styles.scanPopup}>[ SCAN_DATA // MICROFIBER_EYELET // 210GSM ]</div>
+            <div className={`${styles.conveyorTrack} flex-nowrap w-max`} ref={archiveTrackRef}>
+              {items.map((item) => {
+                const statusClass = item.status ? styles[item.status] : ""
+                return (
                 <button
                   key={item.id}
                   type="button"
-                  className="jersey-item jersey-button"
-                  onClick={(event) => {
-                    const img = event.currentTarget.querySelector("img")
+                  className={`${styles.jerseyItem} ${styles.jerseyButton}`}
+                  onClick={() => {
+                    const img = imageRefs.current[item.id] ?? null
                     handleOpen(item, img)
                   }}
                 >
                   <Image
+                    ref={(node) => {
+                      imageRefs.current[item.id] = node
+                    }}
                     src={item.src}
                     alt={item.label}
                     width={350}
                     height={450}
                     unoptimized
-                    className="jersey-image"
+                    className={styles.jerseyImage}
                   />
-                  <div className="mono-label">{item.label}</div>
-                  {item.status && <div className={`mono-status ${item.status}`}>[ STATUS: SHIPPED ]</div>}
+                  <div className={styles.monoLabel}>{item.label}</div>
+                  {item.status && (
+                    <div className={`${styles.monoStatus} ${statusClass}`}>[ STATUS: SHIPPED ]</div>
+                  )}
                 </button>
-              ))}
+                )
+              })}
             </div>
           </div>
-          <a className="cta-link" href="#process">Ask How the Design Works</a>
+          <a className={ctaStyles.ctaLink} href="#process" ref={registerCta}>Ask How the Design Works</a>
         </div>
       </div>
 
       <div
         ref={overlayRef}
-        className={`archive-overlay ${activeItem ? "is-active" : ""}`}
+        className={`${styles.archiveOverlay} ${activeItem ? styles.isActive : ""}`}
         onClick={handleClose}
+        role="dialog"
+        aria-modal={activeItem ? "true" : "false"}
+        aria-label="Preview jersey"
         aria-hidden={!activeItem}
       >
-        <button type="button" className="archive-close" onClick={handleClose}>
+        <button
+          ref={closeButtonRef}
+          type="button"
+          className={styles.archiveClose}
+          onClick={handleClose}
+        >
           Close
         </button>
         {activeItem && (
@@ -175,7 +225,7 @@ export default function ArchiveSection({ jerseyPlaceholder }: ArchiveSectionProp
             width={350}
             height={450}
             unoptimized
-            className="archive-overlay-image"
+            className={styles.archiveOverlayImage}
           />
         )}
       </div>

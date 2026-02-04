@@ -1,0 +1,279 @@
+.quoteForm {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.formGroup {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.formLabel {
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  color: var(--fg);
+  letter-spacing: 0.08em;
+}
+
+.formInput {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 0.9rem 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-family: "PP Neue Montreal", "Inter", "Segoe UI", sans-serif;
+  transition: all 0.2s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.formInput:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--fg);
+}
+
+.formInput::placeholder {
+  color: rgba(230, 230, 230, 0.3);
+}
+
+.formInput[type="date"] {
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.formInput[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.formInput[type="date"]:hover::-webkit-calendar-picker-indicator {
+  opacity: 1;
+}
+
+.formInput[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.formInput[type="number"]::-webkit-outer-spin-button,
+.formInput[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.formHelper {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+}
+
+.sizeGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  border: 1px solid var(--line);
+  padding: 1rem;
+  background: var(--card);
+}
+
+.sizeItem {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.sizeLabel {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 500;
+  text-align: center;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sizeInput {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  padding: 0.7rem 0.5rem;
+  font-size: 0.9rem;
+  color: var(--fg);
+  font-family: "IBM Plex Mono", monospace;
+  text-align: center;
+  transition: all 0.2s ease;
+  outline: none;
+  appearance: textfield;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.sizeInput::-webkit-outer-spin-button,
+.sizeInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.sizeInput:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sizeInput::placeholder {
+  color: rgba(230, 230, 230, 0.2);
+}
+
+.totalQuantity {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 0.9rem 1rem;
+  margin-top: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.totalLabel {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 600;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.totalValue {
+  font-size: 1.1rem;
+  color: var(--fg);
+  font-weight: 600;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.quoteSubmitButton {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.6rem;
+  background: #39ff14;
+  color: #0d0d0d;
+  border: 1px solid #39ff14;
+  font-weight: 600;
+  font-size: 0.9rem;
+  min-height: 52px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: "IBM Plex Mono", monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.quoteSubmitButton:hover {
+  background: #2ee010;
+  transform: translateY(-1px);
+}
+
+.quoteSubmitButton:active {
+  transform: translateY(0);
+}
+
+.formFooter {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.75rem;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .sizeGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.6rem;
+    padding: 0.85rem;
+  }
+
+  .sizeInput {
+    padding: 0.6rem 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  .sizeLabel {
+    font-size: 0.7rem;
+  }
+
+  .formInput {
+    padding: 0.8rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .quoteSubmitButton {
+    padding: 0.9rem 1.4rem;
+    font-size: 0.85rem;
+  }
+
+  .totalQuantity {
+    padding: 0.8rem 0.9rem;
+  }
+
+  .totalValue {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sizeGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 0.85rem;
+  }
+
+  .sizeItem {
+    gap: 0.5rem;
+  }
+
+  .sizeLabel {
+    font-size: 0.72rem;
+  }
+
+  .sizeInput {
+    padding: 0.65rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .formLabel {
+    font-size: 0.78rem;
+  }
+
+  .formInput {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.85rem;
+  }
+
+  .quoteSubmitButton {
+    padding: 0.85rem 1.2rem;
+    font-size: 0.82rem;
+  }
+
+  .totalQuantity {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .totalLabel {
+    font-size: 0.78rem;
+  }
+
+  .totalValue {
+    font-size: 0.95rem;
+  }
+}

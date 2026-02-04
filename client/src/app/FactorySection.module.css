@@ -1,0 +1,24 @@
+.factoryBlueprint {
+  grid-column: 1 / -1;
+  border: 1px solid var(--line);
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  display: grid;
+  gap: 1rem;
+}
+
+.blueprintLabel {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.factoryWireframe {
+  width: 100%;
+  height: auto;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 2;
+  fill: none;
+}

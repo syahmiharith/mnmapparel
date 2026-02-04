@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from config.settings import settings
+from routes import products_router
 
 app = FastAPI(
     title="MNM Apparel API",
@@ -37,11 +38,9 @@ async def root():
     }
 
 # Import and include routers
-# from routes import auth, products, users
+# from routes import auth, users
 # app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
-# app.include_router(
-#     products.router, prefix="/api/products", tags=["products"]
-# )
+app.include_router(products_router, prefix="/api/products", tags=["products"])
 # app.include_router(users.router, prefix="/api/users", tags=["users"])
 
 if __name__ == "__main__":

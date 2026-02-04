@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import usePrefersReducedMotion from "../utils/usePrefersReducedMotion"
 import useSectionActive from "../utils/useSectionActive"
+import styles from "./ProofLabel.module.css"
 
 type ProofLabelProps = {
   text: string
@@ -14,12 +15,19 @@ type ProofLabelProps = {
 type ProofLabelObserverProps = {
   text: string
   sectionId: string
+  sectionRef?: React.MutableRefObject<HTMLElement | null>
   className?: string
   rootMargin?: string
 }
 
-export function ProofLabelObserver({ text, sectionId, className, rootMargin }: ProofLabelObserverProps) {
-  const active = useSectionActive(sectionId, rootMargin)
+export function ProofLabelObserver({
+  text,
+  sectionId,
+  sectionRef,
+  className,
+  rootMargin,
+}: ProofLabelObserverProps) {
+  const active = useSectionActive(sectionId, rootMargin, sectionRef)
   return <ProofLabel text={text} active={active} className={className} />
 }
 
@@ -82,9 +90,9 @@ export default function ProofLabel({ text, active, className }: ProofLabelProps)
   }, [active, text, reduced])
 
   return (
-    <span className={`proof-label ${className ?? ""}`}>
-      <span className="proof-label__box" ref={boxRef}>
-        <span className="proof-label__text" ref={textRef} />
+    <span className={`${styles.proofLabel} ${className ?? ""}`}>
+      <span className={styles.proofLabelBox} ref={boxRef}>
+        <span className={styles.proofLabelText} ref={textRef} />
       </span>
       <span className="sr-only">{text}</span>
     </span>
