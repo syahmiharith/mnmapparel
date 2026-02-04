@@ -49,7 +49,7 @@
 - [x] Audit keyboard navigation for sticky chat
 - [x] Verify `aria` attributes on interactive elements
 - [x] Check focus management on overlay open/close
-- [ ] Confirm reduced motion compliance
+- [x] Confirm reduced motion compliance
 
 ## Backend Skeleton
 - [x] Add `server/routes/products.py`

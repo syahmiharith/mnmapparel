@@ -197,6 +197,17 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .bgMesh,
+  .bgMesh::after {
+    animation: none;
+  }
+
+  .crosshair::after {
+    transition: none;
+  }
+}
+
 @media (max-width: 1024px) {
   .statusSidebar {
     display: none;

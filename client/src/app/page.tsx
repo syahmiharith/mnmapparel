@@ -18,11 +18,11 @@ import quoteStyles from "./QuoteFormSection.module.css"
 import ctaStyles from "./Cta.module.css"
 import dataListStyles from "./DataList.module.css"
 import layoutStyles from "./SectionLayout.module.css"
+import { DEFAULT_WHATSAPP_MESSAGE, HERO_SPEC_DESIGN, WHATSAPP_NUMBER } from "../lib/site"
+import { buildWhatsAppUrl } from "../utils/whatsapp"
 
-
-const whatsappNumber = "60183825033"
-const whatsappMessage = 
-  "Hi I would like to purchase this item"
+const whatsappNumber = WHATSAPP_NUMBER
+const whatsappMessage = DEFAULT_WHATSAPP_MESSAGE
 
 const jerseyPlaceholder = `data:image/svg+xml;utf8,${encodeURIComponent(
   `<svg xmlns="http://www.w3.org/2000/svg" width="700" height="900" viewBox="0 0 700 900">
@@ -34,9 +34,7 @@ const jerseyPlaceholder = `data:image/svg+xml;utf8,${encodeURIComponent(
   </svg>`
 )}`
 
-const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-  whatsappMessage
-)}`
+const whatsappHref = buildWhatsAppUrl(whatsappNumber, whatsappMessage)
 
 function HeroSection() {
   const { heroSubRef, heroSectionRef, registerCta } = useMotionRefs()
@@ -63,7 +61,7 @@ function HeroSection() {
             </div>
             <div className={heroStyles.specItem}>
               <span className={heroStyles.specLabel}>[ DESIGN ]</span>
-              <span className={heroStyles.specValue}>SYAHMI TAK HENSEM</span>
+              <span className={heroStyles.specValue}>{HERO_SPEC_DESIGN}</span>
             </div>
             <div className={heroStyles.specItem}>
               <span className={heroStyles.specLabel}>[ PRICE ]</span>
@@ -310,7 +308,7 @@ Date Needed: ${date || "Not specified"}
 
 Please advise price & next steps.`
 
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+    const url = buildWhatsAppUrl(whatsappNumber, message)
     window.open(url, "_blank")
   }
 
@@ -446,7 +444,7 @@ export default function Home() {
         <FactorySection />
         <ProcessSection />
         <QuoteFormSection />
-        <StickyChat whatsappNumber={whatsappNumber} />
+        <StickyChat whatsappNumber={whatsappNumber} defaultMessage={whatsappMessage} />
         <MotionRoot />
       </main>
     </MotionRefsProvider>

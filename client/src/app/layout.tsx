@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import FirebaseAnalytics from '../components/FirebaseAnalytics'
+import FirebaseAnalytics from '../components/Firebase'
 
 export const metadata: Metadata = {
   title: 'MNM Apparel',
-  description: 'Landing page for MNM Apparel',
+  description: 'Landing page for MNM Apparel, a streetwear brand.',
 }
 
 export default function RootLayout({

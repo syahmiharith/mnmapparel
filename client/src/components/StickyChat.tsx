@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import usePrefersReducedMotion from "../utils/usePrefersReducedMotion"
+import { buildWhatsAppUrl } from "../utils/whatsapp"
 import styles from "./StickyChat.module.css"
 
 type StickyChatProps = {
@@ -42,8 +43,7 @@ export default function StickyChat({
   const handleSend = () => {
     const trimmed = message.trim()
     if (!trimmed) return
-    const encoded = encodeURIComponent(trimmed)
-    window.location.href = `https://wa.me/${whatsappNumber}?text=${encoded}`
+    window.location.href = buildWhatsAppUrl(whatsappNumber, trimmed)
   }
 
   const handleToggle = () => {
