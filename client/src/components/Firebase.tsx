@@ -6,13 +6,13 @@ import { getAnalytics } from "firebase/analytics"
 import { getPerformance } from "firebase/performance";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBkauCN9FUSl_QeHAwM7A1YzTTZ4bxoPuk",
-  authDomain: "mnmapparel-486012.firebaseapp.com",
-  projectId: "mnmapparel-486012",
-  storageBucket: "mnmapparel-486012.firebasestorage.app",
-  messagingSenderId: "1030433708457",
-  appId: "1:1030433708457:web:b26178c9808f607b42ccb8",
-  measurementId: "G-H0P1R0MK0M",
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID,
+  measurementId: FIREBASE_MEASUREMENT_ID,
 }
 
 export default function FirebaseAnalytics() {

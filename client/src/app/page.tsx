@@ -18,21 +18,20 @@ import quoteStyles from "./QuoteFormSection.module.css"
 import ctaStyles from "./Cta.module.css"
 import dataListStyles from "./DataList.module.css"
 import layoutStyles from "./SectionLayout.module.css"
-import { DEFAULT_WHATSAPP_MESSAGE, HERO_SPEC_DESIGN, WHATSAPP_NUMBER } from "../lib/site"
+import {
+  buildQuoteMessage,
+  DEFAULT_WHATSAPP_MESSAGE,
+  formatSizeLabel,
+  JERSEY_PLACEHOLDER_DATA_URI,
+  PAGE_TEXT,
+  WHATSAPP_NUMBER,
+} from "../lib/site"
 import { buildWhatsAppUrl } from "../utils/whatsapp"
 
 const whatsappNumber = WHATSAPP_NUMBER
 const whatsappMessage = DEFAULT_WHATSAPP_MESSAGE
 
-const jerseyPlaceholder = `data:image/svg+xml;utf8,${encodeURIComponent(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="700" height="900" viewBox="0 0 700 900">
-    <rect width="700" height="900" fill="#0d0d0d" />
-    <rect x="40" y="40" width="620" height="820" fill="#111" stroke="#2a2a2a" stroke-width="2" />
-    <path d="M180 160 L260 80 H440 L520 160 V720 H180 Z" fill="#171717" stroke="#3a3a3a" stroke-width="2" />
-    <rect x="260" y="120" width="180" height="80" fill="#0f0f0f" stroke="#3a3a3a" stroke-width="2" />
-    <text x="350" y="520" font-family="IBM Plex Mono, monospace" font-size="28" fill="#2f2f2f" text-anchor="middle">MNM // BATCH</text>
-  </svg>`
-)}`
+const jerseyPlaceholder = JERSEY_PLACEHOLDER_DATA_URI
 
 const whatsappHref = buildWhatsAppUrl(whatsappNumber, whatsappMessage)
 
@@ -44,48 +43,48 @@ function HeroSection() {
       id="hero"
       className={`section ${heroStyles.sectionHero}`}
       aria-labelledby="hero-title"
-      data-chapter="01"
-      data-title="SYSTEM_INITIALIZE"
+      data-chapter={PAGE_TEXT.hero.chapter}
+      data-title={PAGE_TEXT.hero.dataTitle}
       ref={heroSectionRef}
     >
       <div className={layoutStyles.sectionInner}>
         <div className={layoutStyles.chapterMeta}>
           <div className={heroStyles.metaBlock}>
-            <MetaLabelObserver text="[ STATUS: ACTIVE ]" sectionId="hero" sectionRef={heroSectionRef} />
-            <MetaLabelObserver text="[ CATEGORY: PREMIUM SUBLIMATION ]" sectionId="hero" sectionRef={heroSectionRef} />
+            <MetaLabelObserver text={PAGE_TEXT.hero.metaStatus} sectionId="hero" sectionRef={heroSectionRef} />
+            <MetaLabelObserver text={PAGE_TEXT.hero.metaCategory} sectionId="hero" sectionRef={heroSectionRef} />
           </div>
           <div className={heroStyles.specGrid}>
             <div className={heroStyles.specItem}>
-              <span className={heroStyles.specLabel}>[ MOQ ]</span>
-              <span className={heroStyles.specValue}>10 PCS (LOW VOLUME ACCESSIBLE)</span>
+              <span className={heroStyles.specLabel}>{PAGE_TEXT.hero.specs.moqLabel}</span>
+              <span className={heroStyles.specValue}>{PAGE_TEXT.hero.specs.moqValue}</span>
             </div>
             <div className={heroStyles.specItem}>
-              <span className={heroStyles.specLabel}>[ DESIGN ]</span>
-              <span className={heroStyles.specValue}>{HERO_SPEC_DESIGN}</span>
+              <span className={heroStyles.specLabel}>{PAGE_TEXT.hero.specs.designLabel}</span>
+              <span className={heroStyles.specValue}>{PAGE_TEXT.hero.specs.designValue}</span>
             </div>
             <div className={heroStyles.specItem}>
-              <span className={heroStyles.specLabel}>[ PRICE ]</span>
-              <span className={heroStyles.specValue}>FACTORY-DIRECT (NO AGENT MARKUPS)</span>
+              <span className={heroStyles.specLabel}>{PAGE_TEXT.hero.specs.priceLabel}</span>
+              <span className={heroStyles.specValue}>{PAGE_TEXT.hero.specs.priceValue}</span>
             </div>
             <div className={heroStyles.specItem}>
-              <span className={heroStyles.specLabel}>[ LEAD TIME ]</span>
-              <span className={heroStyles.specValue}>7-10 WORKING DAYS</span>
+              <span className={heroStyles.specLabel}>{PAGE_TEXT.hero.specs.leadTimeLabel}</span>
+              <span className={heroStyles.specValue}>{PAGE_TEXT.hero.specs.leadTimeValue}</span>
             </div>
           </div>
         </div>
         <div className={layoutStyles.chapterContent}>
-          <MetaLabelObserver text="[ 01 ] SYSTEM: THE HERO INTERFACE" sectionId="hero" sectionRef={heroSectionRef} />
+          <MetaLabelObserver text={PAGE_TEXT.hero.metaLabel} sectionId="hero" sectionRef={heroSectionRef} />
           <div className={heroStyles.heroHeadingWrapper}>
             <ScrambleHeading
               as="h1"
               id="hero-title"
               className="reveal-text"
-              text={"ORDER BAJU SIAP BAWAH 24 JAM .\nBAJU SIAP ON TIME.\n"}
+              text={PAGE_TEXT.hero.heading}
             />
             <div className={heroStyles.heroLogoRight}>
               <Image
                 src={MNMLogo}
-                alt="MNM Apparel Logo"
+                alt={PAGE_TEXT.hero.logoAlt}
                 width={300}
                 height={300}
                 priority
@@ -93,14 +92,12 @@ function HeroSection() {
               />
             </div>
           </div>
-          <p className={layoutStyles.lead} ref={heroSubRef}>
-            Kami menyediakan harga terus dari kilang, pengeluaran pantas dan penghantaran yang boleh dipercayai.
-          </p>
+          <p className={layoutStyles.lead} ref={heroSubRef}>{PAGE_TEXT.hero.lead}</p>
           <a className={ctaStyles.ctaButton} href={whatsappHref} ref={registerCta}>
-            <span className={ctaStyles.ctaText}>START MY 3D DESIGN</span>
+            <span className={ctaStyles.ctaText}>{PAGE_TEXT.hero.ctaPrimary}</span>
           </a>
-          <p className={ctaStyles.ctaMicrocopy}>Chat with our designer · Free preview · No payment required</p>
-          <a className={ctaStyles.ctaLink} href="#proof" ref={registerCta}>See Real Jerseys</a>
+          <p className={ctaStyles.ctaMicrocopy}>{PAGE_TEXT.hero.ctaMicrocopy}</p>
+          <a className={ctaStyles.ctaLink} href="#proof" ref={registerCta}>{PAGE_TEXT.hero.ctaSecondary}</a>
         </div>
       </div>
     </section>
@@ -116,19 +113,19 @@ function FactorySection() {
       id="quality"
       className="section section-factory"
       aria-labelledby="factory-title"
-      data-chapter="03"
-      data-title="HARDWARE_SPECS"
+      data-chapter={PAGE_TEXT.factory.chapter}
+      data-title={PAGE_TEXT.factory.dataTitle}
       ref={factorySectionRef}
     >
       <div className={layoutStyles.sectionInner}>
         <div className={layoutStyles.chapterMeta}>
           <MetaLabelObserver
-            text="[ 03 ] THE FACTORY: HARDWARE &amp; SPECS"
+            text={PAGE_TEXT.factory.metaTitle}
             sectionId="quality"
             sectionRef={factorySectionRef}
           />
           <MetaLabelObserver
-            text="[ MODULE: PRODUCTION FACILITY ]"
+            text={PAGE_TEXT.factory.metaModule}
             sectionId="quality"
             sectionRef={factorySectionRef}
           />
@@ -138,10 +135,10 @@ function FactorySection() {
             as="h2"
             id="factory-title"
             className="reveal-text"
-            text="Built in-house. Premium Quality. No outsourcing."
+            text={PAGE_TEXT.factory.heading}
           />
           <div className={factoryStyles.factoryBlueprint} aria-hidden="true">
-            <div className={factoryStyles.blueprintLabel}>[ SCHEMATIC: JERSEY_CORE ]</div>
+            <div className={factoryStyles.blueprintLabel}>{PAGE_TEXT.factory.blueprintLabel}</div>
             <svg
               className={factoryStyles.factoryWireframe}
               viewBox="0 0 640 460"
@@ -162,20 +159,14 @@ function FactorySection() {
             </svg>
           </div>
           <div className={dataListStyles.dataList}>
-            <div className={dataListStyles.dataItem}>
-              <span className={dataListStyles.dataLabel}>Color That Holds</span>
-              <span className={dataListStyles.dataValue}>Anti-fade ink that stays sharp after 30+ washes.</span>
-            </div>
-            <div className={dataListStyles.dataItem}>
-              <span className={dataListStyles.dataLabel}>Performance Fabrics</span>
-              <span className={dataListStyles.dataValue}>Breathable micro‑eyelet and durable interlock blends.</span>
-            </div>
-            <div className={dataListStyles.dataItem}>
-              <span className={dataListStyles.dataLabel}>Reinforced Stitching</span>
-              <span className={dataListStyles.dataValue}>Built to last through training, matches, and travel.</span>
-            </div>
+            {PAGE_TEXT.factory.dataList.map((item) => (
+              <div key={item.label} className={dataListStyles.dataItem}>
+                <span className={dataListStyles.dataLabel}>{item.label}</span>
+                <span className={dataListStyles.dataValue}>{item.value}</span>
+              </div>
+            ))}
           </div>
-          <a className={ctaStyles.ctaLink} href={whatsappHref} ref={registerCta}>Talk to a Designer</a>
+          <a className={ctaStyles.ctaLink} href={whatsappHref} ref={registerCta}>{PAGE_TEXT.factory.cta}</a>
         </div>
       </div>
     </section>
@@ -190,19 +181,19 @@ function ProcessSection() {
       id="process"
       className="section section-process"
       aria-labelledby="process-title"
-      data-chapter="04"
-      data-title="PROCESS_MANUAL"
+      data-chapter={PAGE_TEXT.process.chapter}
+      data-title={PAGE_TEXT.process.dataTitle}
       ref={processSectionRef}
     >
       <div className={layoutStyles.sectionInner}>
         <div className={layoutStyles.chapterMeta}>
           <MetaLabelObserver
-            text="[ 04 ] THE PROCESS: 1-2-3 MANUAL"
+            text={PAGE_TEXT.process.metaTitle}
             sectionId="process"
             sectionRef={processSectionRef}
           />
           <MetaLabelObserver
-            text="[ SEQUENCE: INITIALIZATION TO DELIVERY ]"
+            text={PAGE_TEXT.process.metaSequence}
             sectionId="process"
             sectionRef={processSectionRef}
           />
@@ -212,39 +203,21 @@ function ProcessSection() {
             as="h2"
             id="process-title"
             className="reveal-text"
-            text="What happens after you WhatsApp."
+            text={PAGE_TEXT.process.heading}
           />
           <ol className={processStyles.stepList}>
-            <li>
-              <span className={processStyles.stepIndex}>01</span>
-              <span className={processStyles.stepBg}>01</span>
-              <div>
-                <h3>INPUT</h3>
-                <p>Send your idea via WhatsApp — sketch, photo, or simple description.</p>
-              </div>
-            </li>
-            <li>
-              <span className={processStyles.stepIndex}>02</span>
-              <span className={processStyles.stepBg}>02</span>
-              <div>
-                <h3>PROCESS</h3>
-                <p>
-                  We design a high‑fidelity mockup and refine until it&apos;s approved.
-                </p>
-              </div>
-            </li>
-            <li>
-              <span className={processStyles.stepIndex}>03</span>
-              <span className={processStyles.stepBg}>03</span>
-              <div>
-                <h3>OUTPUT</h3>
-                <p>
-                  Production starts and ships factory‑direct to your doorstep.
-                </p>
-              </div>
-            </li>
+            {PAGE_TEXT.process.steps.map((step, index) => (
+              <li key={step.title}>
+                <span className={processStyles.stepIndex}>{String(index + 1).padStart(2, "0")}</span>
+                <span className={processStyles.stepBg}>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </div>
+              </li>
+            ))}
           </ol>
-          <a className={ctaStyles.ctaLink} href="#quote" ref={registerCta}>Get Your Free Quote</a>
+          <a className={ctaStyles.ctaLink} href="#quote" ref={registerCta}>{PAGE_TEXT.process.cta}</a>
         </div>
       </div>
     </section>
@@ -293,20 +266,17 @@ function QuoteFormSection() {
     const sizeBreakdown = getSizeBreakdown()
 
     if (!name || !shirtType || totalQty === 0) {
-      alert("Sila isi Nama, Jenis Baju, dan sekurang-kurangnya satu saiz")
+      alert(PAGE_TEXT.quote.alertMissingFields)
       return
     }
 
-    const message = `Hi MNM Apparel 👋
-I'd like to get a jersey quote.
-
-Name: ${name}
-Shirt Type: ${shirtType}
-Total Quantity: ${totalQty} pcs
-Size Breakdown: ${sizeBreakdown}
-Date Needed: ${date || "Not specified"}
-
-Please advise price & next steps.`
+    const message = buildQuoteMessage({
+      name,
+      shirtType,
+      totalQty,
+      sizeBreakdown,
+      date,
+    })
 
     const url = buildWhatsAppUrl(whatsappNumber, message)
     window.open(url, "_blank")
@@ -317,19 +287,19 @@ Please advise price & next steps.`
       id="quote"
       className="section section-quote"
       aria-labelledby="quote-title"
-      data-chapter="05"
-      data-title="QUOTE_FORM"
+      data-chapter={PAGE_TEXT.quote.chapter}
+      data-title={PAGE_TEXT.quote.dataTitle}
       ref={quoteSectionRef}
     >
       <div className={layoutStyles.sectionInner}>
         <div className={layoutStyles.chapterMeta}>
           <MetaLabelObserver
-            text="[ 05 ] QUOTE FORM: GET INSTANT PRICING"
+            text={PAGE_TEXT.quote.metaTitle}
             sectionId="quote"
             sectionRef={quoteSectionRef}
           />
           <MetaLabelObserver
-            text="[ ACTION: SUBMIT_DETAILS ]"
+            text={PAGE_TEXT.quote.metaAction}
             sectionId="quote"
             sectionRef={quoteSectionRef}
           />
@@ -339,19 +309,17 @@ Please advise price & next steps.`
             as="h2"
             id="quote-title"
             className="reveal-text"
-            text="Start your 3D design today."
+            text={PAGE_TEXT.quote.heading}
           />
-          <p className={layoutStyles.lead}>
-            Nak cepat dapat harga? Isi ringkas & terus WhatsApp dengan designer
-          </p>
+          <p className={layoutStyles.lead}>{PAGE_TEXT.quote.lead}</p>
           
           <form className={quoteStyles.quoteForm} onSubmit={handleSubmit}>
             <div className={quoteStyles.formGroup}>
-              <label htmlFor="name" className={quoteStyles.formLabel}>[ Nama ]</label>
+              <label htmlFor="name" className={quoteStyles.formLabel}>{PAGE_TEXT.quote.form.nameLabel}</label>
               <input
                 id="name"
                 type="text"
-                placeholder="Nama anda"
+                placeholder={PAGE_TEXT.quote.form.namePlaceholder}
                 value={name}
                 onChange={e => setName(e.target.value)}
                 className={quoteStyles.formInput}
@@ -359,24 +327,24 @@ Please advise price & next steps.`
             </div>
 
             <div className={quoteStyles.formGroup}>
-              <label htmlFor="shirtType" className={quoteStyles.formLabel}>[ Jenis Baju ]</label>
+              <label htmlFor="shirtType" className={quoteStyles.formLabel}>{PAGE_TEXT.quote.form.shirtTypeLabel}</label>
               <input
                 id="shirtType"
                 type="text"
-                placeholder="Korporat / Jersey / Baggy / Jacket / Muslimah / Custom"
+                placeholder={PAGE_TEXT.quote.form.shirtTypePlaceholder}
                 value={shirtType}
                 onChange={e => setShirtType(e.target.value)}
                 className={quoteStyles.formInput}
               />
-              <p className={quoteStyles.formHelper}>[ SPECIFY_TYPE // REQUIRED ]</p>
+              <p className={quoteStyles.formHelper}>{PAGE_TEXT.quote.form.shirtTypeHelper}</p>
             </div>
 
             <div className={quoteStyles.formGroup}>
-              <label className={quoteStyles.formLabel}>[ Kuantiti & Saiz ]</label>
+              <label className={quoteStyles.formLabel}>{PAGE_TEXT.quote.form.sizesLabel}</label>
               <div className={quoteStyles.sizeGrid}>
                 {Object.keys(sizes).map((size) => (
                   <div key={size} className={quoteStyles.sizeItem}>
-                    <label htmlFor={`size-${size}`} className={quoteStyles.sizeLabel}>[ {size} ]</label>
+                    <label htmlFor={`size-${size}`} className={quoteStyles.sizeLabel}>{formatSizeLabel(size)}</label>
                     <input
                       id={`size-${size}`}
                       type="number"
@@ -384,19 +352,19 @@ Please advise price & next steps.`
                       value={sizes[size as keyof typeof sizes] || ""}
                       onChange={e => handleSizeChange(size, e.target.value)}
                       className={quoteStyles.sizeInput}
-                      placeholder="0"
+                      placeholder={PAGE_TEXT.quote.form.sizePlaceholder}
                     />
                   </div>
                 ))}
               </div>
               <div className={quoteStyles.totalQuantity}>
-                <span className={quoteStyles.totalLabel}>[ Total ]</span>
-                <span className={quoteStyles.totalValue}>{getTotalQuantity()} PCS</span>
+                <span className={quoteStyles.totalLabel}>{PAGE_TEXT.quote.form.totalLabel}</span>
+                <span className={quoteStyles.totalValue}>{getTotalQuantity()}{PAGE_TEXT.quote.form.totalSuffix}</span>
               </div>
             </div>
 
             <div className={quoteStyles.formGroup}>
-              <label htmlFor="date" className={quoteStyles.formLabel}>[ Tarikh Diperlukan ]</label>
+              <label htmlFor="date" className={quoteStyles.formLabel}>{PAGE_TEXT.quote.form.dateLabel}</label>
               <input
                 id="date"
                 type="date"
@@ -404,30 +372,28 @@ Please advise price & next steps.`
                 onChange={e => setDate(e.target.value)}
                 className={quoteStyles.formInput}
               />
-              <p className={quoteStyles.formHelper}>[ DATE_REQUIRED // OPTIONAL ]</p>
+              <p className={quoteStyles.formHelper}>{PAGE_TEXT.quote.form.dateHelper}</p>
             </div>
 
             <button type="submit" className={quoteStyles.quoteSubmitButton}>
-              SUBMIT & CHAT WHATSAPP
+              {PAGE_TEXT.quote.form.submitButton}
             </button>
-            <p className={quoteStyles.formFooter}>[ FREE QUOTE · INSTANT REPLY · NO COMMITMENT ]</p>
+            <p className={quoteStyles.formFooter}>{PAGE_TEXT.quote.form.footer}</p>
           </form>
 
           <div className={dataListStyles.dataList} style={{ marginTop: '2rem' }}>
-            <div className={dataListStyles.dataItem}>
-              <span className={dataListStyles.dataLabel}>No Payment Required</span>
-              <span className={dataListStyles.dataValue}>Get factory-accurate 3D preview before committing</span>
-            </div>
-            <div className={dataListStyles.dataItem}>
-              <span className={dataListStyles.dataLabel}>Quick Response</span>
-              <span className={dataListStyles.dataValue}>Our designer replies within minutes during business hours</span>
-            </div>
+            {PAGE_TEXT.quote.dataList.map((item) => (
+              <div key={item.label} className={dataListStyles.dataItem}>
+                <span className={dataListStyles.dataLabel}>{item.label}</span>
+                <span className={dataListStyles.dataValue}>{item.value}</span>
+              </div>
+            ))}
           </div>
 
           <a className={ctaStyles.ctaButton} href={whatsappHref} ref={registerCta} style={{ marginTop: '1.5rem', display: 'inline-flex' }}>
-            <span className={ctaStyles.ctaText}>START MY 3D DESIGN</span>
+            <span className={ctaStyles.ctaText}>{PAGE_TEXT.quote.ctaPrimary}</span>
           </a>
-          <p className={ctaStyles.ctaMicrocopy}>Free · No commitment · Reply within minutes</p>
+          <p className={ctaStyles.ctaMicrocopy}>{PAGE_TEXT.quote.ctaMicrocopy}</p>
         </div>
       </div>
     </section>
