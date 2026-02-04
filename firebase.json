@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "mnmapparel-486012-22891",
     "public": "client/out",
     "ignore": [
       "firebase.json",
